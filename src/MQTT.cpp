@@ -109,11 +109,11 @@ bool MQTT::connect(const char *id, const char *user, const char *pass, const cha
 
         if (result) {
             nextMsgId = 1;
-            uint8_t d[9] = {0x00,0x06,'M','Q','I','s','d','p',MQTTPROTOCOLVERSION};
+            uint8_t d[7] = {0x00,0x04,'M','Q','T','T',MQTTPROTOCOLVERSION};
             // Leave room in the buffer for header and variable length field
             uint16_t length = 5;
             unsigned int j;
-            for (j = 0;j<9;j++) {
+            for (j = 0;j<7;j++) {
                 buffer[length++] = d[j];
             }
 
@@ -159,6 +159,7 @@ bool MQTT::connect(const char *id, const char *user, const char *pass, const cha
             while (!_client->available()) {
                 unsigned long t = millis();
                 if (t-lastInActivity > this->keepalive*1000UL) {
+                    debug_print("connect timeout.\n");
                     _client->stop();
                     return false;
                 }
@@ -238,6 +239,7 @@ bool MQTT::loop() {
         unsigned long t = millis();
         if ((t - lastInActivity > this->keepalive*1000UL) || (t - lastOutActivity > this->keepalive*1000UL)) {
             if (pingOutstanding) {
+                debug_print("ping timeout.\n");
                 _client->stop();
                 return false;
             } else {

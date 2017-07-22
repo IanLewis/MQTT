@@ -59,7 +59,8 @@ sample code bearing this copyright.
 // MQTT_KEEPALIVE : keepAlive interval in Seconds
 #define MQTT_DEFAULT_KEEPALIVE 15
 
-#define MQTTPROTOCOLVERSION 3
+// MQTT protocol v1.3.1
+#define MQTTPROTOCOLVERSION 4
 #define MQTTCONNECT     1 << 4  // Client request to connect to Server
 #define MQTTCONNACK     2 << 4  // Connect Acknowledgment
 #define MQTTPUBLISH     3 << 4  // Publish message
